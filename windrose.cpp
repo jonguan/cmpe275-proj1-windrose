@@ -1,8 +1,5 @@
 // windrose pseudocode
 
-// speed bucket function [5 buckets]
-// direction [divide 360 in number of sectors]
-
 // Divide speed into 5 buckets
 // Negative speeds are not allowed
 int speedBucket(double data) {
@@ -30,8 +27,15 @@ int directionBucket(float degrees) {
 	return bucket;
 }
 
-int main(...){
-	load file
+// Main - load files and 
+int main(int argc, char *argv[]){
+	// Scrub input
+	if (argc > 2) {
+		printf('USAGE: ./windrose datafile\n');
+		return 0;
+	}
+	
+	//load file
 
 	for (file: files){
 		loadFile(file);
