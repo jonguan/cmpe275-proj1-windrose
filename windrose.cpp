@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 // windrose pseudocode
 
 // Divide speed into 5 buckets
@@ -30,16 +32,16 @@ int directionBucket(float degrees) {
 // Main - load files and 
 int main(int argc, char *argv[]){
 	// Scrub input
-	if (argc > 2) {
-		printf('USAGE: ./windrose datafile\n');
+	if (argc != 2) {
+		printf("USAGE: ./windrose datafile\n");
 		return 0;
 	}
 	
 	//load file
 
-	for (file: files){
-		loadFile(file);
-	}
+	// for (file: files){
+	// 	loadFile(file);
+	// }
 	//number of files
 	// frequency (month, week, day)
 	// start date
@@ -47,11 +49,11 @@ int main(int argc, char *argv[]){
 
 }
 
-data = loadFile(data.dat);
+// data = loadFile(data.dat);
 
-for (d : data){
-	s = speedBucket(data)
-	d = directionBucket(data)
-	m[s][d]++;
+// for (d : data){
+// 	s = speedBucket(data)
+// 	d = directionBucket(data)
+// 	m[s][d]++;
 
-}
+// }
