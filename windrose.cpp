@@ -55,6 +55,7 @@ int main(int argc, char *argv[]){
 	}
 
 
+	// OPTIONAL: print out the results
 	for (int j = 0; j < 5; j++) {
 		for (int k = 0; k < 8; k++){
 			printf("%d ", m[j][k]);
