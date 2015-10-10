@@ -8,6 +8,7 @@ g++ windrose.cpp -o windrose.out
 
 ## Sample input
 head -n 10 20130101_0000.csv
+
 0.00,0.00
 0.45,46.00
 0.00,340.00
