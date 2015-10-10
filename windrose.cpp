@@ -26,16 +26,16 @@ int speedBucket(double data) {
 	}
 }
 
-// Divide 360 into 8 sectors
+// Divide 360 into 16 sectors
 int directionBucket(float degrees) {
-	int bucket = degrees / 45;
+	int bucket = degrees / 22.5 ;
 	return bucket;
 }
 
 // Main - load files and 
 int main(int argc, char *argv[]){
 
-	int m[5][8];
+	int m[5][16];
 	// zero out array
 	memset(m, 0, sizeof(m));
 	// Scrub input
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
 
 	// OPTIONAL: print out the results
 	for (int j = 0; j < 5; j++) {
-		for (int k = 0; k < 8; k++){
+		for (int k = 0; k < 16; k++){
 			printf("%d ", m[j][k]);
 		}
 		printf("\n");
