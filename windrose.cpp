@@ -7,7 +7,7 @@
 
 // windrose pseudocode
 
-// Divide speed into 5 buckets
+// Divide speed into 6 buckets
 // Negative speeds are not allowed
 int speedBucket(double data) {
 	if (data < 0) return -1;
@@ -21,8 +21,10 @@ int speedBucket(double data) {
 		return 2;
 	} else if (data < 7) {
 		return 3;
-	} else {
+	} else if (data < 9) {
 		return 4;
+	}else {
+		return 5;
 	}
 }
 
@@ -35,7 +37,7 @@ int directionBucket(float degrees) {
 // Main - load files and 
 int main(int argc, char *argv[]){
 
-	int m[5][16];
+	int m[6][16];
 	// zero out array
 	memset(m, 0, sizeof(m));
 	// Scrub input
@@ -56,7 +58,7 @@ int main(int argc, char *argv[]){
 
 
 	// OPTIONAL: print out the results
-	for (int j = 0; j < 5; j++) {
+	for (int j = 0; j < 6; j++) {
 		for (int k = 0; k < 16; k++){
 			printf("%d ", m[j][k]);
 		}
