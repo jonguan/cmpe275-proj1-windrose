@@ -528,8 +528,20 @@ def clean(dir, var):
 
 if __name__=='__main__':
     from pylab import figure, show, setp, random, grid, draw
-    vv=random(500)*6
-    dv=random(500)*360
+    import sys, csv
+    if len(sys.argv) < 2:
+        vv=random(500)*6
+        dv=random(500)*360
+    else:
+        print "Hello Jon"
+        vv = []
+        dv = []
+        with open(sys.argv[1], 'rb') as csvfile:
+            windreader = csv.reader(csvfile, delimiter=',')
+            for row in windreader:
+                vv.append(float(row[0]))
+                dv.append(float(row[1]))
+
     fig = figure(figsize=(8, 8), dpi=80, facecolor='w', edgecolor='w')
     rect = [0.1, 0.1, 0.8, 0.8]
     ax = WindroseAxes(fig, rect, axisbg='w')
