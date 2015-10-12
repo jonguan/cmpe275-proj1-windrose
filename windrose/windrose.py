@@ -533,7 +533,6 @@ if __name__=='__main__':
         vv=random(500)*6
         dv=random(500)*360
     else:
-        print "Hello Jon"
         vv = []
         dv = []
         with open(sys.argv[1], 'rb') as csvfile:
