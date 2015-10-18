@@ -2,8 +2,12 @@
 #include <iostream>     // std::cout
 #include <fstream>      // std::ifstream
 #include <cstdlib>
+<<<<<<< HEAD
+#include <string.h>
+=======
 #include <cstring>
 #include <string>
+>>>>>>> 7f8f4258e834123e8797e9a76128642ad04488a3
 #include <sstream>
 #include <sys/types.h>
 #include <dirent.h>
@@ -118,12 +122,10 @@ int main(int argc, char *argv[]){
 			int dirbckt = directionBucket(dir);
 			// #pragma omp critical	
 			// m[spdbckt][dirbckt] ++;
-		}	
-	}
-	
-
+		}
 
 	// OPTIONAL: print out the results
+	#pragma parallel for
 	for (int j = 0; j < 6; j++) {
 		for (int k = 0; k < 16; k++){
 			printf("%d ", m[j][k]);

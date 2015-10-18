@@ -1,0 +1,10 @@
+./csvdata/mesonet-20130101_0800.csv
+./csvdata/mesonet-20130102_0800.csv
+./csvdata/mesonet-20130103_0800.csv
+./csvdata/mesonet-20130104_0800.csv
+./csvdata/mesonet-20130105_0800.csv
+./csvdata/mesonet-20130106_0800.csv
+./csvdata/mesonet-20130107_0800.csv
+./csvdata/mesonet-20130108_0800.csv
+./csvdata/mesonet-20130109_0800.csv
+./csvdata/mesonet-20130110_0800.csv
