@@ -2,12 +2,8 @@
 #include <iostream>     // std::cout
 #include <fstream>      // std::ifstream
 #include <cstdlib>
-<<<<<<< HEAD
-#include <string.h>
-=======
 #include <cstring>
 #include <string>
->>>>>>> 7f8f4258e834123e8797e9a76128642ad04488a3
 #include <sstream>
 #include <sys/types.h>
 #include <dirent.h>
@@ -95,7 +91,7 @@ int main(int argc, char *argv[]){
     (void) closedir (dp);
 
 	//load files in directory
-	omp_set_num_threads(1);
+	// omp_set_num_threads(1);
 	#pragma omp parallel for
 	for (int i = 1; i<= 10; i++) {
 		std::string filename  = format("./%smesonet-201301%02d_%s.csv", argv[1], i, argv[3]);
@@ -120,9 +116,10 @@ int main(int argc, char *argv[]){
 		while ((buffer >> spd >> c >> dir) && (c == ',')){	
 			int spdbckt = speedBucket(spd);
 			int dirbckt = directionBucket(dir);
-			// #pragma omp critical	
-			// m[spdbckt][dirbckt] ++;
+			#pragma omp critical	
+			m[spdbckt][dirbckt] ++;
 		}
+	}
 
 	// OPTIONAL: print out the results
 	#pragma parallel for
