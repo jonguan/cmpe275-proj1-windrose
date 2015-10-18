@@ -1,10 +1,10 @@
 # cmpe275-proj1-windrose
 
 ## To compile:
-g++ windrose.cpp -o windrose.out
+g++ -fopenmp windrose.cpp -o windrose.out
 
 ## To run:
-./windrose.out 20130101_0000.csv
+OMP_NUM_THREADS=2 ./windrose.out csvdata/ 0 0800
 
 ## Sample input
 head -n 10 20130101_0000.csv
