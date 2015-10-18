@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <cstdarg>
+#include "omp.h"
 
 inline std::string format(const char* fmt, ...){
     int size = 512;
@@ -61,7 +62,10 @@ int directionBucket(float degrees) {
 // Main - load files and 
 int main(int argc, char *argv[]){
 
-	int m[6][16];
+	int const NUM_ROWS = 6;
+	int const NUM_COLS = 16;
+
+	int m[NUM_ROWS][NUM_COLS];
 	// zero out array
 	memset(m, 0, sizeof(m));
 	// Scrub input
@@ -87,14 +91,33 @@ int main(int argc, char *argv[]){
     (void) closedir (dp);
 
 	//load files in directory
-	for (int i = 1; i<= numfiles; i++) {
+	omp_set_num_threads(1);
+	#pragma omp parallel for
+	for (int i = 1; i<= 10; i++) {
 		std::string filename  = format("./%smesonet-201301%02d_%s.csv", argv[1], i, argv[3]);
 		printf("%s\n", filename.c_str());
+
 		std::ifstream datafile(filename.c_str());
+		// datafile.seekg(0, std::ios::end);
+		// size_t size = datafile.tellg();
+		// std::string buffer(size, ' ');
+		// datafile.seekg(0);
+		// datafile.read(&buffer[0], size); 
+
+		// std::stringstream ss(buffer);
+
+		std::stringstream buffer;
+		buffer << datafile.rdbuf();
+		
+		// std::cout << buffer.str() << std::endl;
+
 		double spd, dir; char c;
 
-		while ((datafile >> spd >> c >> dir) && (c == ',')){		
-			m[speedBucket(spd)][directionBucket(dir)] ++;
+		while ((buffer >> spd >> c >> dir) && (c == ',')){	
+			int spdbckt = speedBucket(spd);
+			int dirbckt = directionBucket(dir);
+			// #pragma omp critical	
+			// m[spdbckt][dirbckt] ++;
 		}	
 	}
 	
