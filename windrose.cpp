@@ -66,8 +66,15 @@ int main(int argc, char *argv[]){
 	int const NUM_COLS = 16;
 
 	int m[NUM_ROWS][NUM_COLS];
+	int n[NUM_COLS];
+	int o[NUM_ROWS];
+	int p[NUM_ROWS*NUM_COLS];
+
 	// zero out array
 	memset(m, 0, sizeof(m));
+	memset(n, 0, sizeof(n));
+	memset(o, 0, sizeof(o));
+	memset(p, 0, sizeof(p));
 	// Scrub input
 	std::string help ("-h");
 	if (argc != 4 || help.compare(argv[1]) == 0 ) {
@@ -91,7 +98,6 @@ int main(int argc, char *argv[]){
     (void) closedir (dp);
 
 	//load files in directory
-	// omp_set_num_threads(1);
 	#pragma omp parallel for
 	for (int i = 1; i<= 10; i++) {
 		std::string filename  = format("./%smesonet-201301%02d_%s.csv", argv[1], i, argv[3]);
@@ -109,15 +115,18 @@ int main(int argc, char *argv[]){
 		std::stringstream buffer;
 		buffer << datafile.rdbuf();
 		
-		// std::cout << buffer.str() << std::endl;
-
 		double spd, dir; char c;
 
 		while ((buffer >> spd >> c >> dir) && (c == ',')){	
 			int spdbckt = speedBucket(spd);
 			int dirbckt = directionBucket(dir);
-			#pragma omp critical	
-			m[spdbckt][dirbckt] ++;
+			// printf("%d %d", spdbckt, dirbckt);
+			#pragma omp critical
+			{
+				// m[spdbckt][dirbckt]++;
+				p[spdbckt* NUM_COLS + dirbckt]++;
+			}
+			
 		}
 	}
 
@@ -125,12 +134,13 @@ int main(int argc, char *argv[]){
 	#pragma parallel for
 	for (int j = 0; j < 6; j++) {
 		for (int k = 0; k < 16; k++){
-			printf("%d ", m[j][k]);
+			// printf("%d ", m[j][k]);
+			printf("%d ", p[j * NUM_COLS + k] );
 		}
 		printf("\n");
 	}
 
-  return 0;
+  	return 0;
 
 	// for (file: files){
 	// 	loadFile(file);
