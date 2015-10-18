@@ -2,7 +2,7 @@
 #include <iostream>     // std::cout
 #include <fstream>      // std::ifstream
 #include <cstdlib>
-#include <string>
+#include <string.h>
 #include <sstream>
 
 // windrose pseudocode
@@ -52,12 +52,14 @@ int main(int argc, char *argv[]){
 	std::ifstream datafile(argv[1]);
 	double spd, dir; char c;
 
-	while ((datafile >> spd >> c >> dir) && (c == ',')){		
+#pragma parallel for
+	while ((datafile >> spd >> c >> dir) && (c == ',')){
 		m[speedBucket(spd)][directionBucket(dir)] ++;
 	}
 
 
 	// OPTIONAL: print out the results
+#pragma parallel for
 	for (int j = 0; j < 6; j++) {
 		for (int k = 0; k < 16; k++){
 			printf("%d ", m[j][k]);
