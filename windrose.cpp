@@ -98,7 +98,12 @@ int main(int argc, char *argv[]){
     (void) closedir (dp);
 
 	//load files in directory
-	#pragma omp parallel for
+	#pragma omp parallel 
+	{
+		int tmp[NUM_ROWS*NUM_COLS];
+		memset(tmp, 0, sizeof(tmp));
+
+		#pragma omp for
 	for (int i = 1; i<= 10; i++) {
 		std::string filename  = format("./%smesonet-201301%02d_%s.csv", argv[1], i, argv[3]);
 		printf("%s\n", filename.c_str());
@@ -115,14 +120,17 @@ int main(int argc, char *argv[]){
 		std::stringstream buffer;
 		buffer << datafile.rdbuf();
 		// reduction
-		int tmp[NUM_ROWS*NUM_COLS];
-		memset(tmp, 0, sizeof(tmp));
+		
 		double spd, dir; char c;
 
 		while ((buffer >> spd >> c >> dir) && (c == ',')){	
 			int spdbckt = speedBucket(spd);
 			int dirbckt = directionBucket(dir);
-			tmp[spdbckt* NUM_COLS + dirbckt]++;			
+			if (spdbckt* NUM_COLS + dirbckt > NUM_ROWS*NUM_COLS) {
+				printf("out of index!!!");
+			}
+			tmp[spdbckt* 16 + dirbckt]++;	
+
 		}
 
 
@@ -130,7 +138,9 @@ int main(int argc, char *argv[]){
 			#pragma omp atomic
 			p[j] += tmp[j];
 		}
+		}
 	}
+	
 
 	// OPTIONAL: print out the results
 	#pragma parallel for
