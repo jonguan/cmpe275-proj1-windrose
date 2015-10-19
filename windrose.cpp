@@ -114,19 +114,21 @@ int main(int argc, char *argv[]){
 
 		std::stringstream buffer;
 		buffer << datafile.rdbuf();
-		
+		// reduction
+		int tmp[NUM_ROWS*NUM_COLS];
+		memset(tmp, 0, sizeof(tmp));
 		double spd, dir; char c;
 
 		while ((buffer >> spd >> c >> dir) && (c == ',')){	
 			int spdbckt = speedBucket(spd);
 			int dirbckt = directionBucket(dir);
-			// printf("%d %d", spdbckt, dirbckt);
-			#pragma omp critical
-			{
-				// m[spdbckt][dirbckt]++;
-				p[spdbckt* NUM_COLS + dirbckt]++;
-			}
-			
+			tmp[spdbckt* NUM_COLS + dirbckt]++;			
+		}
+
+
+		for (int j = 0; j < NUM_COLS*NUM_ROWS; j++){
+			#pragma omp atomic
+			p[j] += tmp[j];
 		}
 	}
 
