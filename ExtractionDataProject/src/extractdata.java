@@ -101,7 +101,7 @@ public class extractdata {
 	    				  && ( lat[i]>=-90 && lat[i] <= 90 ) && ( lon[i]>=-180 && lon[i] <= 180 )
 	    				  && stationName[i] != null) {
 	    				sb.append(stationName[i]);
-	    				sb.append(",");
+	    				sb.append("\t");
 	    				//check for missing Station ID
 	    				if (stationId[i] == null) {
 	    					if (wmo[i] != -9999 && wmo[i] != -2147483647)
