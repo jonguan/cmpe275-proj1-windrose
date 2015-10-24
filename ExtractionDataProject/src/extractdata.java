@@ -1,4 +1,6 @@
 
+import ucar.nc2.NetcdfFile;
+
 import java.io.BufferedWriter;
 import java.io.File;
 //import java.io.FileFilter;
@@ -11,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
 
-import ucar.nc2.NetcdfFile;
-
 
 public class extractdata {
 	public static void main(String[] args) throws IOException {
@@ -22,6 +22,7 @@ public class extractdata {
 		}
 
 		System.out.println("Extracting Data");
+
 		NetcdfFile nf = null;
 		//NetcdfFile nfFileList = null;
 		
@@ -88,7 +89,7 @@ public class extractdata {
 	    		
 	    		//String filepathname = filepath.substring(0,absolutePath.lastIndexOf(filepath.));
 	    		
-	    		String newFileName = filepath1 + "\\mesonet-" + filename + ".csv";
+	    		String newFileName = filepath1 + "/mesonet-" + filename + ".csv";
 	    		
 	    		System.out.println("newFileName : " + newFileName);
 	    		
@@ -112,22 +113,21 @@ public class extractdata {
 	    				{
 	    					sb.append(stationId[i]);
 	    				}
-	    				sb.append(",");
+	    				sb.append("\t");
 	    				sb.append(String.format("%.2f", windspd[i]));
-	    				sb.append(",");
+	    				sb.append("\t");
 	    				sb.append(String.format("%.2f", winddir[i]));
-	    				sb.append(",");
+	    				sb.append("\t");
 	    				sb.append(String.format("%.2f", lat[i]));
-	    				sb.append(",");
+	    				sb.append("\t");
 	    				sb.append(String.format("%.2f", lon[i]));
-	    				sb.append(",");	    				
+	    				sb.append("\t");
 	    				sb.append("\n");
 	    			}
 	    		}
 	    		
 	            sbFileList.append(newFileName + "\n");
-	            //sbFileList.append("\n");
-	            
+
 	    		br.write(sb.toString());
 	    		br.close();	
 	        }

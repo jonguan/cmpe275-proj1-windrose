@@ -1,0 +1,31 @@
+<component name="libraryTable">
+  <library name="edu.ucar:netcdf4:4.5.5" type="repository">
+    <properties maven-id="edu.ucar:netcdf4:4.5.5" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/netcdf4-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/cdm-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/udunits-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/joda-time-2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcip-annotations-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpservices-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.2.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpmime-4.2.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcl-over-slf4j-1.7.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jdom2-2.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/quartz-2.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/c3p0-0.9.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/protobuf-java-2.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ehcache-core-2.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-17.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bzip2-0.9.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcommander-1.35.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jna-4.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
