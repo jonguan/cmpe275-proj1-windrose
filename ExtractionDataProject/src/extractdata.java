@@ -15,6 +15,8 @@ import java.lang.String;
 
 
 public class extractdata {
+	private static String DELIMITER = "^";
+
 	public static void main(String[] args) throws IOException {
 		
 		if (args.length != 2) {
@@ -101,7 +103,7 @@ public class extractdata {
 	    				  && ( lat[i]>=-90 && lat[i] <= 90 ) && ( lon[i]>=-180 && lon[i] <= 180 )
 	    				  && stationName[i] != null) {
 	    				sb.append(stationName[i]);
-	    				sb.append("\t");
+	    				sb.append(DELIMITER);
 	    				//check for missing Station ID
 	    				if (stationId[i] == null) {
 	    					if (wmo[i] != -9999 && wmo[i] != -2147483647)
@@ -113,15 +115,14 @@ public class extractdata {
 	    				{
 	    					sb.append(stationId[i]);
 	    				}
-	    				sb.append("\t");
+	    				sb.append(DELIMITER);
 	    				sb.append(String.format("%.2f", windspd[i]));
-	    				sb.append("\t");
+	    				sb.append(DELIMITER);
 	    				sb.append(String.format("%.2f", winddir[i]));
-	    				sb.append("\t");
+	    				sb.append(DELIMITER);
 	    				sb.append(String.format("%.2f", lat[i]));
-	    				sb.append("\t");
+	    				sb.append(DELIMITER);
 	    				sb.append(String.format("%.2f", lon[i]));
-	    				sb.append("\t");
 	    				sb.append("\n");
 	    			}
 	    		}
