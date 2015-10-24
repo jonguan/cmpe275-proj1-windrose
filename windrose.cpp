@@ -5,10 +5,13 @@
 #include <cstring>
 #include <string>
 #include <sstream>
+#include <vector>
 #include <sys/types.h>
 #include <dirent.h>
 #include <cstdarg>
 #include "omp.h"
+
+using namespace std;
 
 inline std::string format(const char* fmt, ...){
     int size = 512;
@@ -82,51 +85,40 @@ int main(int argc, char *argv[]){
 		printf("Enter 0 for null values\n");
 		return 0;
 	}
-	
-	// Count number files in directory
-	DIR *dp;
-	struct dirent *ep;
-	dp = opendir (argv[1]);
-	int numfiles;
-	if (dp == NULL){
-		perror ("ERROR: Couldn't open directory\n");
-		return 1;
-	}
-	while (ep = readdir (dp))
-      	numfiles++;
 
-    (void) closedir (dp);
+	string station = argv[2];
 
 	//load files in directory
 	#pragma omp parallel for
-	for (int i = 1; i<= 10; i++) {
-		std::string filename  = format("./%smesonet-201301%02d_%s.csv", argv[1], i, argv[3]);
+	for (int i = 2; i<= 14; i++) {
+		std::string filename  = format("./%smesonet-20%02d0621_%s.csv", argv[1], i, argv[3]);
 		printf("%s\n", filename.c_str());
 
-		std::ifstream datafile(filename.c_str());
+		ifstream datafile(filename.c_str());
 		// datafile.seekg(0, std::ios::end);
 		// size_t size = datafile.tellg();
 		// std::string buffer(size, ' ');
 		// datafile.seekg(0);
 		// datafile.read(&buffer[0], size); 
-
 		// std::stringstream ss(buffer);
 
 		std::stringstream buffer;
 		buffer << datafile.rdbuf();
 		
-		double spd, dir; char c;
+		double spd, dir, lat, lon; char t; string stn, info;
 
-		while ((buffer >> spd >> c >> dir) && (c == ',')){	
+		while ((buffer >> info >> t >> stn >> t >> spd >> t >> dir >> t >> lat >> t >> lon >> t) && (t == '\t')){	
 			int spdbckt = speedBucket(spd);
 			int dirbckt = directionBucket(dir);
-			// printf("%d %d", spdbckt, dirbckt);
-			#pragma omp critical
+			printf("%s %d %d", stn.c_str(), spdbckt, dirbckt);
+			if (station.compare(stn))
 			{
-				// m[spdbckt][dirbckt]++;
-				p[spdbckt* NUM_COLS + dirbckt]++;
-			}
-			
+				#pragma omp critical
+				{
+					// m[spdbckt][dirbckt]++;
+					p[spdbckt* NUM_COLS + dirbckt]++;
+				}
+			}	
 		}
 	}
 
@@ -141,14 +133,6 @@ int main(int argc, char *argv[]){
 	}
 
   	return 0;
-
-	// for (file: files){
-	// 	loadFile(file);
-	// }
-	//number of files
-	// frequency (month, week, day)
-	// start date
-
 
 }
 
