@@ -102,22 +102,31 @@ int main(int argc, char *argv[]){
 		// datafile.read(&buffer[0], size); 
 		// std::stringstream ss(buffer);
 
-		std::stringstream buffer;
-		buffer << datafile.rdbuf();
+		// std::stringstream buffer;
+		// buffer << datafile.rdbuf();
 		
 		double spd, dir, lat, lon; char t; string stn, info;
 
-		while ((buffer >> info >> t >> stn >> t >> spd >> t >> dir >> t >> lat >> t >> lon >> t) && (t == '\t')){	
+		string line;
+		while (getline(datafile, line))
+		{
+			stringstream buffer(line);
+			getline(buffer, info, '\t');
+			getline(buffer, stn, '\t');
+			buffer >> spd >> dir >> lat >> lon;
+
+			// disregard results not equal to station
+			if (station != stn){
+				continue;
+			}
 			int spdbckt = speedBucket(spd);
 			int dirbckt = directionBucket(dir);
-			printf("%s %d %d", stn.c_str(), spdbckt, dirbckt);
-			if (station.compare(stn))
+			printf("%s %d %d\n", stn.c_str(), spdbckt, dirbckt);
+			
+			#pragma omp critical
 			{
-				#pragma omp critical
-				{
 					// m[spdbckt][dirbckt]++;
-					p[spdbckt* NUM_COLS + dirbckt]++;
-				}
+				p[spdbckt* NUM_COLS + dirbckt]++;
 			}	
 		}
 	}
@@ -135,6 +144,8 @@ int main(int argc, char *argv[]){
   	return 0;
 
 }
+
+	
 
 int dirNumFiles(char *directory)
 {

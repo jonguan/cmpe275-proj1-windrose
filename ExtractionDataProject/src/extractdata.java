@@ -15,7 +15,7 @@ import java.lang.String;
 
 
 public class extractdata {
-	private static String DELIMITER = "^";
+	private static String DELIMITER = "\t";
 
 	public static void main(String[] args) throws IOException {
 		
