@@ -15,6 +15,8 @@ using namespace std;
 
 int const NUM_ROWS = 6;
 int const NUM_COLS = 16;
+int p[NUM_ROWS*NUM_COLS];
+string station;
 
 inline std::string format(const char* fmt, ...){
     int size = 512;
@@ -75,71 +77,77 @@ int directionBucket(float degrees) {
 	return bucket;
 }
 
-// Main - load files and 
-int main(int argc, char *argv[]){
+void allocate(){
+    memset(p, 0, sizeof(p));
+}
 
-	int p[NUM_ROWS*NUM_COLS];
-
-	// zero out array
-	memset(p, 0, sizeof(p));
-	// Scrub input
-	std::string help ("-h");
-	if (argc != 4 || help.compare(argv[1]) == 0 ) {
-		printf("USAGE: ./windrose datafiledirectory stationId HH00\n");
-		printf("Enter 0 for null values\n");
-		return 0;
-	}
-
-	string station = argv[2];
-
-	//load files in directory
-	#pragma omp parallel for
-	for (int i = 2; i<= 14; i++) {
-		std::string filename  = format("./%smesonet-20%02d0621_%s.dat", argv[1], i, argv[3]);
-		printf("%s\n", filename.c_str());
-
-		// Cache line is 64 bytes - approx 2 lines
-
-		ifstream datafile(filename.c_str(), ios::ate | ios::binary);
-		long datasize = datafile.tellg();
-		datafile.seekg(0);
-		vector<unsigned char> bytes(datasize, 0);
-		datafile.read((char*)&bytes[0], bytes.size());
-
-	
-		for (int j = 0; j < datasize; j+=(5+4*sizeof(int))) 
-		{
-			int spd, dir, lat, lon; 
-
-			// 5 bytes station id 
-			// string stationid = string(1, bytes[j]);
-			string stationid (reinterpret_cast<char const*>(&bytes[j]), 5);
-
-			if (stationid == station) {
-				// Intel CPU is little endian
-				spd = (bytes[j+5]<<24)|(bytes[j+6]<<16)|(bytes[j+7]<<8)|(bytes[j+8]);
-				dir = (bytes[j+9]<<24)|(bytes[j+10]<<16)|(bytes[j+11]<<8)|(bytes[j+12]);
-				// printf("%s %d %d %d %d\n", stationid.c_str(), spd, dir, j+5, j+5+sizeof(int));
-
-				int spdbckt = speedBucket(spd/100.);
-				int dirbckt = directionBucket(dir/100.);
-
-				#pragma omp critical
-				{
-					p[spdbckt* NUM_COLS + dirbckt]++;
-				}	
-			}
-		}
-	}
-
-	printLines(p);
-
-  	return 0;
-
+void check(char *argv[],int argc){
+    std::string help ("-h");
+    if (argc != 4 || help.compare(argv[1]) == 0 ) {
+        printf("USAGE: ./windrose datafiledirectory stationId HH00\n");
+        printf("Enter 0 for null values\n");
+        //return 0;
+    }
+    station = argv[2];
 }
 
 
+void calc(char *argv[],int argc){
+    
+    #pragma omp parallel for
+    for (int i = 2; i<= 14; i++) {
+        std::string filename  = format("./%smesonet-20%02d0621_%s.dat", argv[1], i, argv[3]);
+        printf("%s\n", filename.c_str());
+        
+        // Cache line is 64 bytes - approx 2 lines
+        
+        ifstream datafile(filename.c_str(), ios::ate | ios::binary);
+        long datasize = datafile.tellg();
+        datafile.seekg(0);
+        vector<unsigned char> bytes(datasize, 0);
+        datafile.read((char*)&bytes[0], bytes.size());
+        
+        
+        for (int j = 0; j < datasize; j+=(5+4*sizeof(int)))
+        {
+            int spd, dir, lat, lon;
+            
+            // 5 bytes station id
+            // string stationid = string(1, bytes[j]);
+            string stationid (reinterpret_cast<char const*>(&bytes[j]), 5);
+            
+            if (stationid == station) {
+                // Intel CPU is little endian
+                spd = (bytes[j+5]<<24)|(bytes[j+6]<<16)|(bytes[j+7]<<8)|(bytes[j+8]);
+                dir = (bytes[j+9]<<24)|(bytes[j+10]<<16)|(bytes[j+11]<<8)|(bytes[j+12]);
+                // printf("%s %d %d %d %d\n", stationid.c_str(), spd, dir, j+5, j+5+sizeof(int));
+                
+                int spdbckt = speedBucket(spd/100.);
+                int dirbckt = directionBucket(dir/100.);
+                
+                #pragma omp critical
+                {
+                    p[spdbckt* NUM_COLS + dirbckt]++;
+                }	
+            }
+        }
+    }
+}
+
+// Main - load files and 
+int main(int argc, char *argv[]){
+
+    allocate();
+	// Scrub input
+    check(argv,argc);
 	
+    calc(argv,argc);
+    
+	printLines(p);
+  	return 0;
+}
+
+
 
 int dirNumFiles(char *directory)
 {
@@ -159,8 +167,5 @@ int dirNumFiles(char *directory)
     	perror ("Couldn't open the directory");
 
   	printf("There's %d files in the current directory.\n", i);
-
   	return i;
 }
-
-
