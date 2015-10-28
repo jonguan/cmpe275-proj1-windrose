@@ -17,6 +17,8 @@ int const NUM_ROWS = 6;
 int const NUM_COLS = 16;
 int p[NUM_ROWS*NUM_COLS];
 string station;
+//std::string argval[];
+//std::string argval2;
 
 inline std::string format(const char* fmt, ...){
     int size = 512;
@@ -37,12 +39,12 @@ inline std::string format(const char* fmt, ...){
     return ret;
 }
 
-void printLines(int *arr){
+void printLines(){
 	// OPTIONAL: print out the results
 	// #pragma parallel for
 	for (int j = 0; j < NUM_ROWS; j++) {
 		for (int k = 0; k < NUM_COLS; k++){
-			printf("%d ", arr[j * NUM_COLS + k] );
+			printf("%d ", p[j * NUM_COLS + k] );
 		}
 		printf("\n");
 	}
@@ -81,22 +83,22 @@ void allocate(){
     memset(p, 0, sizeof(p));
 }
 
-void check(char *argv[],int argc){
+void check(char *argv1, char *argv2, int argc){
     std::string help ("-h");
-    if (argc != 4 || help.compare(argv[1]) == 0 ) {
+    if (argc != 4 || help.compare(argv1) == 0 ) {
         printf("USAGE: ./windrose datafiledirectory stationId HH00\n");
         printf("Enter 0 for null values\n");
         //return 0;
     }
-    station = argv[2];
+    station = argv2;
 }
 
 
-void calc(char *argv[],int argc){
+void calc(char *argv1, char *argv3,int argc){
     
     #pragma omp parallel for
     for (int i = 2; i<= 14; i++) {
-        std::string filename  = format("./%smesonet-20%02d0621_%s.dat", argv[1], i, argv[3]);
+        std::string filename  = format("./%smesonet-20%02d0621_%s.dat", argv1, i, argv3);
         printf("%s\n", filename.c_str());
         
         // Cache line is 64 bytes - approx 2 lines
@@ -139,11 +141,18 @@ int main(int argc, char *argv[]){
 
     allocate();
 	// Scrub input
-    check(argv,argc);
-	
-    calc(argv,argc);
+  //  argval1(argv[1]);
+    //argval2(argv[2]);
     
-	printLines(p);
+    //for(int i=0;i<argc;i++){
+      //  argval[i](argv[i]);
+    //}
+                        
+    check(argv[1],argv[2],argc);
+	
+    calc(argv[1],argv[3],argc);
+    
+	printLines();
   	return 0;
 }
 
