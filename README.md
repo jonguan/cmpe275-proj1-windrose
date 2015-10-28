@@ -1,47 +1,111 @@
 # cmpe275-proj1-windrose
 
 ## To compile:
-g++ -fopenmp windrose.cpp -o windrose.out
+g++ -fopenmp windrose.cpp -o windrose.out  
+
+Possible files include 
+  windrose.cpp  -- csv parsing file with openmp
+  windrosebin.cpp -- binary parsing file with openmp
+  windrosebin_reduc.cpp -- binary parsing file with openmp and 3D arrays for reduction
 
 ## To run:
-OMP_NUM_THREADS=2 ./windrose.out csvdata/ 0 0800
+OMP_NUM_THREADS=2 ./windrose.out dataDirectory stationID hour
+OMP_NUM_THREADS=2 ./windrose.out csvdata/ AP061 0800
 
 ## Sample input
-head -n 10 20130101_0000.csv
-
-0.00,0.00  
-0.45,46.00  
-0.00,340.00  
-0.00,264.00  
-0.00,132.00  
-0.00,148.00  
-5.36,309.00  
-0.00,271.00  
-0.00,143.00  
-1.79,34.00  
+head -n 10 mesonet-20020621_0800.csv
+Sandy         UT	H0070	1.34	110.00	40.54	-111.51
+WNCT Studios           Greenville    NC	H0092	0.45	100.00	35.61	-77.37  
+WNCT Studios           Greenville    NC	H0092	0.45	220.00	35.61	-77.37  
+WSLS Studios           Roanoke       VA	H0097	0.45	100.00	37.27	-79.94  
+WNCT Studios           Greenville    NC	H0092	0.89	180.00	35.61	-77.37  
+WSLS Studios           Roanoke       VA	H0097	0.00	320.00	37.27	-79.94  
+WNCT Studios           Greenville    NC	H0092	1.34	70.00	35.61	-77.37  
+WSLS Studios           Roanoke       VA	H0097	0.00	320.00	37.27	-79.94  
+Black River Electric   Fredericktown MO	H0003	0.00	230.00	37.51	-90.33  
+BlueStar Systems       Milford      OH	H0344	0.00	240.00	39.19	-84.21  
 
 ## Sample output
 60f81dcbfb56:cmpe275-proj1-windrose jsx039$ g++ -fopenmp windrose.cpp -o windrose.out  
-60f81dcbfb56:cmpe275-proj1-windrose jsx039$ time OMP_NUM_THREADS=2 ./windrose.out csvdata/ 0 0800  
-./csvdata/mesonet-20130101_0800.csv  
-./csvdata/mesonet-20130106_0800.csv  
-./csvdata/mesonet-20130102_0800.csv  
-./csvdata/mesonet-20130107_0800.csv  
-./csvdata/mesonet-20130103_0800.csv  
-./csvdata/mesonet-20130108_0800.csv  
-./csvdata/mesonet-20130104_0800.csv  
-./csvdata/mesonet-20130109_0800.csv  
-./csvdata/mesonet-20130105_0800.csv  
-./csvdata/mesonet-20130110_0800.csv  
-50793 19534 21967 18439 22051 17750 22182 20153 27731 24513 30967 27062 31508 23928 26138 21143  
-14924 9556 9233 7833 7784 6470 8241 9270 13060 12643 15673 14018 15292 11858 11641 9767  
-5443 3333 3231 2866 3204 2315 3045 3613 5527 5500 6766 6087 7007 5370 4960 4065  
-1898 913 1000 904 1004 702 1088 1232 1990 1832 2231 2073 2271 1851 1631 1331  
-607 477 438 349 457 309 428 697 1026 1049 1024 901 1135 779 729 452  
-541 276 195 383 302 188 351 516 845 752 835 613 701 482 383 258  
-  
-real	0m0.920s  
-user	0m1.804s  
-sys	0m0.014s  
+60f81dcbfb56:cmpe275-proj1-windrose jsx039$ time ./windrose.out csvdata/ AP061 0800
+./csvdata/mesonet-20020621_0800.csv  
+./csvdata/mesonet-20040621_0800.csv  
+./csvdata/mesonet-20130621_0800.csv  
+./csvdata/mesonet-20120621_0800.csv  
+./csvdata/mesonet-20060621_0800.csv  
+./csvdata/mesonet-20140621_0800.csv  
+./csvdata/mesonet-20080621_0800.csv  
+./csvdata/mesonet-20100621_0800.csv  
+AP061 0 7  
+AP061 0 6  
+AP061 0 8  
+AP061 0 8  
+AP061 0 6  
+AP061 0 7  
+AP061 0 8  
+AP061 1 6  
+AP061 0 7  
+AP061 0 6  
+./csvdata/mesonet-20030621_0800.csv  
+AP061 0 8  
+AP061 1 6  
+AP061 0 7  
+AP061 0 8  
+AP061 0 6  
+AP061 0 6  
+AP061 0 8  
+AP061 0 8  
+AP061 0 6  
+AP061 0 7  
+./csvdata/mesonet-20050621_0800.csv  
+AP061 0 6  
+AP061 0 8  
+AP061 0 7  
+AP061 0 8  
+AP061 0 8  
+AP061 0 8  
+AP061 0 8  
+AP061 0 6  
+AP061 0 6  
+AP061 0 8  
+AP061 0 7  
+AP061 0 8  
+AP061 0 8  
+AP061 0 8  
+AP061 0 8  
+./csvdata/mesonet-20070621_0800.csv  
+AP061 1 6  
+AP061 0 6  
+AP061 1 6  
+AP061 0 7  
+AP061 1 6  
+AP061 1 6  
+./csvdata/mesonet-20090621_0800.csv  
+AP061 1 7  
+AP061 1 7  
+AP061 1 6  
+AP061 1 7  
+./csvdata/mesonet-20110621_0800.csv  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+AP061 0 13  
+0 0 0 0 0 0 10 8 17 0 0 0 0 12 0 0  
+0 0 0 0 0 0 7 3 0 0 0 0 0 0 0 0  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
 
+real	0m1.664s  
+user	0m8.092s  
+sys	0m0.159s  
  
