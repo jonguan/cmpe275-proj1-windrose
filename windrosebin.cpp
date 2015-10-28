@@ -78,17 +78,9 @@ int directionBucket(float degrees) {
 // Main - load files and 
 int main(int argc, char *argv[]){
 
-
-
-	int m[NUM_ROWS][NUM_COLS];
-	int n[NUM_COLS];
-	int o[NUM_ROWS];
 	int p[NUM_ROWS*NUM_COLS];
 
 	// zero out array
-	memset(m, 0, sizeof(m));
-	memset(n, 0, sizeof(n));
-	memset(o, 0, sizeof(o));
 	memset(p, 0, sizeof(p));
 	// Scrub input
 	std::string help ("-h");
@@ -138,40 +130,6 @@ int main(int argc, char *argv[]){
 				}	
 			}
 		}
-		
-		// datafile.seekg(0, std::ios::end);
-		// size_t size = datafile.tellg();
-		// std::string buffer(size, ' ');
-		// datafile.seekg(0);
-		// datafile.read(&buffer[0], size); 
-		// std::stringstream ss(buffer);
-
-
-		
-		// char t; string stn, info;
-
-		// string line;
-		// while (getline(datafile, line))
-		// {
-		// 	stringstream buffer(line);
-		// 	getline(buffer, info, '\t');
-		// 	getline(buffer, stn, '\t');
-		// 	buffer >> spd >> dir >> lat >> lon;
-
-		// 	// disregard results not equal to station
-		// 	if (station != stn){
-		// 		continue;
-		// 	}
-		// 	int spdbckt = speedBucket(spd);
-		// 	int dirbckt = directionBucket(dir);
-		// 	// printf("%s %d %d\n", stn.c_str(), spdbckt, dirbckt);
-			
-		// 	#pragma omp critical
-		// 	{
-		// 			// m[spdbckt][dirbckt]++;
-		// 		p[spdbckt* NUM_COLS + dirbckt]++;
-		// 	}	
-		// }
 	}
 
 	printLines(p);
