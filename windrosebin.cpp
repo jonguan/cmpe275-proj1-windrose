@@ -13,6 +13,8 @@
 
 using namespace std;
 
+#define NUM_THREADS 4
+
 int const NUM_ROWS = 6;
 int const NUM_COLS = 16;
 int p[NUM_ROWS*NUM_COLS];
@@ -137,7 +139,7 @@ void calc(char *argv1, char *argv3,int argc){
 }
 
 // Main - load files and 
-int main(int argc, char *argv[]){
+/*int main(int argc, char *argv[]){
 
     allocate();
 	// Scrub input
@@ -155,7 +157,7 @@ int main(int argc, char *argv[]){
 	printLines();
   	return 0;
 }
-
+*/
 
 
 int dirNumFiles(char *directory)
