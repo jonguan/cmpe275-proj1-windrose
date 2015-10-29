@@ -109,3 +109,6 @@ real	0m1.664s
 user	0m8.092s  
 sys	0m0.159s  
  
+# Project Write up
+https://docs.google.com/document/d/1wd5UXfMSvJxhZdFj5GNDQo_rMmQ4RVaudw9qwMwVogM/pub
+
